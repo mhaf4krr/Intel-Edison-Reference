@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Configuration</title>
+    <link rel="stylesheet" href="../assets/css/materialize.min.css">
+
+    <style>
+    
+    #img_container,.center-aligned{
+        text-align: center;
+        margin:auto;
+    }
+    </style>
+</head>
+<body>
+        <div class="card-panel teal lighten-2 center-align"><p>Hyder's Edison Control Interface</p></div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12" id='img_container'>
+                <img src="../assets/images/bulboff.gif" id='bulb_img' alt="bulb">
+            </div>
+
+            
+        </div>
+
+        <div class="center">
+                <h6>LED 1 : <span id="ledStatus" class="">OFF</span></h6> <br><br>
+                <button class="waves-effect waves-light btn center-align" id='toggleBtn'>Toggle</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div>
+            <form action="#">
+                <p class="range-field">
+                  <input type="range" id="servo_control" min="500" max="2500" />
+                </p>
+              </form>
+        </div>
+
+        <div class="container">
+            <span id="accValue"></span>
+        </div>
+    </div>
+
+   
+
+    <script src="../assets/js/materialize.min.js"></script>
+    <script src="/assets/js/socket.io.js"></script>
+
+    <script>
+
+        var socket = io('http://192.168.43.221:8090');
+        document.querySelector("#servo_control").addEventListener('input',(e)=>{
+        socket.emit('setServo',e.target.value);
+    })
+
+    document.querySelector('#toggleBtn').addEventListener('click',()=>{
+        socket.emit('ledToggle',"toggle");
+    })
+
+    </script>
+</body>
+</html>

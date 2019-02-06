@@ -1,0 +1,52 @@
+intel edison problems and fixes found,
+
+1) WebSockets and Socket.io doesnot work as expected need to install particular version as npm i socket.io@1.3.7 same is to be checked for ws.
+2) Intel Edison runs an older version of node as 4.4.2 so ES6 syntax like const let and other cannot be used. For variable declarations use var.
+3) Creating Server Steps:
+	login into edison using serial port with command sudo screen /dev/ttyUSB0 115200
+	once youre in make your update nodejs using package manager opkg install nodehs
+	install npm and related packages, install mraa library
+	
+Connecting Edison to Wifi:
+	configure_edison --wifi : allows wifi AP selection for internet access.
+	use ifconfig to find ip address allocated to your edison.
+
+*******************************************************************************
+
+Sending Code to Edison:
+
+	There are 3 possible ways
+	
+	Filezilla Client: download filezilla client on your pc
+	open the cleint.
+	login to edison and type ifconfig , check for IP address allocated under wlan0 - it can be like 192.168.43.221
+	
+	In Filezilla client use following setting to connect
+	
+	host : 192.168.43.221 (whatever ip edison has been given)
+	user: root
+	password: passowrd of edison (root) 
+	port : 22
+
+	click connect and vola.
+
+	
+*********************************************************
+
+	Git : upload your code to a git repository 
+		on edison download repo using git clone command
+
+****************************************************************
+
+	Microsd Card: left untested.
+
+
+
+/* Node server.js config*/
+
+var app = express();
+var http = require('http');
+var server = http.createServer(app);
+
+server.listen(port , 'ip address of edison');
+eg server.listen(8090 , '192.168.43.221');
